@@ -1,6 +1,7 @@
 package com.spring.event.spring_event_driven.event;
 
 import org.springframework.context.event.EventListener;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
@@ -27,9 +28,18 @@ public class StudentListener {
     }
 
     // this will require @Transactional annotation in the service layer
+    @Order(1)
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-    public void handleStudentEvent(StudentEvent studentEvent){
-        System.out.println(studentEvent+"runs after db commit");
+    public void handleStudentEvent7(StudentEvent studentEvent){
+        System.out.println(studentEvent+"runs after db commit 1");
+        System.out.println(studentEvent.student()+"runs after db commit");
+
+    }
+
+    @Order(2)
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    public void handleStudentEvent8(StudentEvent studentEvent){
+        System.out.println(studentEvent+"runs after db commit 2");
         System.out.println(studentEvent.student()+"runs after db commit");
 
     }
